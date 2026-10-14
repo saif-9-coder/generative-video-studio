@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+
+# renders & frames (large binaries, never commit)
+renders/
+frames/
+
+# misc
+*.log
+.DS_Store
+.env
+.env*.local
