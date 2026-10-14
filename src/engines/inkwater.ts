@@ -26,8 +26,8 @@ void main() {
   vec2 lt = loopVec(u_time);
 
   // Deep-water background with soft light falling from above.
-  vec3 water = mix(vec3(0.008, 0.025, 0.05), u_palette[0] * 0.22, 0.55);
-  water += vec3(0.015, 0.045, 0.07) * smoothstep(0.35, 1.0, uv.y);
+  vec3 water = mix(vec3(0.02, 0.09, 0.18), u_palette[0] * 0.55, 0.6);
+  water += vec3(0.03, 0.08, 0.12) * smoothstep(0.3, 1.0, uv.y);
 
   vec3 inkCol = vec3(0.0);
   float dens = 0.0;
@@ -56,9 +56,15 @@ void main() {
         float Rk = R * (1.0 - fk * 0.24);
 
         vec2 q = p - ck;
-        float er = (fbm(p * 3.0 + lt * u_p_turb + ph) - 0.5) * u_p_turb * 0.55 * R;
-        float d = length(q * vec2(1.0, 1.35)) + er; // vertical stretch = rising ink
-        float m = 1.0 - smoothstep(Rk * (1.0 - u_p_soft * 0.7), Rk * (1.0 + u_p_soft * 0.7), d);
+        // Filament erosion: high-frequency ridged noise carves thin tendrils
+        // into the plume edge, like real dispersing ink.
+        float fil = 1.0 - abs(2.0 * fbm(p * 7.0 + lt * u_p_turb * 2.2 + ph * 3.1) - 1.0);
+        float er = (fbm(p * 3.0 + lt * u_p_turb + ph) - 0.5) * u_p_turb * 0.5 * R
+                 + (fil - 0.5) * u_p_turb * 0.45 * R;
+        float d = length(q * vec2(1.0, 1.9)) + er; // tall rising plumes
+        float core = 1.0 - smoothstep(Rk * 0.25, Rk * 0.9, d);
+        float edge = 1.0 - smoothstep(Rk * (1.0 - u_p_soft * 0.7), Rk * (1.0 + u_p_soft * 1.4), d);
+        float m = clamp(core * 1.15 + edge * 0.85, 0.0, 1.6);
         float w = m * (1.0 - fk * 0.28);
         dens += w;
         inkCol += w * dcol;
@@ -83,6 +89,7 @@ export const inkwaterEngine: EngineDefinition = {
   name: "Ink in Water",
   description:
     "Colorful ink drops blooming and billowing underwater — the classic ink-spread stock look, seamlessly looped.",
+  category: "fluid",
   fragmentShader,
   defaultParams: {
     drops: 5,

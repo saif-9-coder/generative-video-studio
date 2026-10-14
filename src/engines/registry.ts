@@ -74,11 +74,32 @@ export interface StudioSettings {
   fps: number;
 }
 
-function withCategory(
-  engine: Omit<EngineDefinition, "category">,
+function withCategory<
+  T extends {
+    id: string;
+    name: string;
+    description: string;
+    fragmentShader: string;
+    defaultParams: Record<string, number>;
+    paramSchema: Array<{
+      key: string;
+      label: string;
+      type: string;
+      min?: number;
+      max?: number;
+      step?: number;
+      default: number | string;
+    }>;
+  },
+>(
+  engine: T,
   category: EngineCategory
 ): EngineDefinition {
-  return { ...engine, category };
+  return {
+    ...engine,
+    category,
+    paramSchema: engine.paramSchema as ParamSchemaEntry[],
+  };
 }
 
 export const ENGINES: EngineDefinition[] = [
