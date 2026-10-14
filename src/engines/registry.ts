@@ -3,6 +3,7 @@ import { flowfieldEngine } from "./flowfield";
 import { neonwavesEngine } from "./neonwaves";
 import { nebulaEngine } from "./nebula";
 import { fireEngine } from "./fire";
+import { inkwaterEngine } from "./inkwater";
 import { marbleEngine } from "./marble";
 import { iridescentEngine } from "./iridescent";
 import { topoEngine } from "./topo";
@@ -85,6 +86,7 @@ export const ENGINES: EngineDefinition[] = [
   withCategory(fluidEngine, "fluid"),
   withCategory(nebulaEngine, "fluid"),
   withCategory(fireEngine, "fluid"),
+  withCategory(inkwaterEngine, "fluid"),
   withCategory(marbleEngine, "fluid"),
   withCategory(iridescentEngine, "fluid"),
   // Lines & Flow

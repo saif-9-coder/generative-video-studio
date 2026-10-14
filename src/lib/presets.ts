@@ -168,6 +168,20 @@ export const BUILTIN_PRESETS: Preset[] = [
       fps: 30,
     },
   },
+  {
+    id: "builtin-ink-bloom",
+    name: "Underwater Ink Bloom",
+    builtin: true,
+    format: "mp4",
+    settings: {
+      engineId: "inkwater",
+      seed: 20240,
+      params: { drops: 6, spread: 0.34, turb: 1.6, rise: 0.9, soft: 0.5, glow: 0.9 },
+      palette: getPalette("pastel-smoke").stops,
+      durationSec: 15,
+      fps: 30,
+    },
+  },
 ];
 
 function readCustom(): Preset[] {
