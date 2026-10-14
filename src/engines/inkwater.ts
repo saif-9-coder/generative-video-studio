@@ -52,21 +52,23 @@ void main() {
       // Gentle mushrooming: column widens slightly as it descends.
       float w = w0 * (0.75 + 1.0 * (1.0 - uv.y));
 
-      // Billow field: big puffs + medium curls + fine fringe (isotropic).
+      // Billow field: dense fine puffs + medium curls + large masses.
+      // Heavy high-frequency detail for the thick paint-like texture.
       float b1 = fbm(p * 2.4 + vec2(lt.x * 0.5, churn * 0.9) + ph);
       float b2 = fbm(p * 5.5 + vec2(lt.y, -lt.x) * u_p_turb * 0.6 + ph * 1.7);
-      float b3 = fbm(p * 11.0 - lt * u_p_turb * 0.8 + ph * 2.3);
-      float billow = b1 * 0.50 + b2 * 0.32 + b3 * 0.18;
-      float bil01 = clamp((billow - 0.28) / 0.48, 0.0, 1.0);
+      float b3 = fbm(p * 14.0 - lt * u_p_turb * 0.9 + ph * 2.3);
+      float billow = b1 * 0.38 + b2 * 0.32 + b3 * 0.30;
+      float bil01 = clamp((billow - 0.26) / 0.46, 0.0, 1.0);
 
       // Puffy edge: billows push the ink boundary in and out.
+      // Wide soft fringe for wispy semi-transparent edges.
       float d = dx / max(w, 1e-4);
-      float edge = 0.66 - bil01 * 0.85 * (0.45 + u_p_turb * 0.40);
-      float m = 1.0 - smoothstep(edge, edge + 0.30 + u_p_soft * 0.50, d);
+      float edge = 0.66 - bil01 * 0.80 * (0.45 + u_p_turb * 0.40);
+      float m = 1.0 - smoothstep(edge, edge + 0.45 + u_p_soft * 0.60, d);
 
-      // Interior cloud texture + crevice shading for smoky depth.
-      float tex = 0.60 + 0.80 * bil01;
-      float shade = 1.0 - u_p_shade * 0.45 * (1.0 - b2);
+      // Dense interior mottling + crevice shading for the paint-like body.
+      float tex = 0.50 + 1.00 * bil01;
+      float shade = 1.0 - u_p_shade * 0.50 * (1.0 - b2);
 
       // Max-composite: overlapping plumes stay distinct, no muddy mixing.
       if (m > best) {
