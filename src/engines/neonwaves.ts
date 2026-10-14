@@ -61,6 +61,7 @@ export const neonwavesEngine: EngineDefinition = {
   name: "Neon Waves",
   description:
     "Layered glowing sine ribbons — cybernetic waveforms with neon falloff.",
+  category: "tech",
   fragmentShader,
   defaultParams: {
     layers: 5,

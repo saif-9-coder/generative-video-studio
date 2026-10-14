@@ -57,6 +57,7 @@ export const fluidEngine: EngineDefinition = {
   name: "Liquid Clouds",
   description:
     "Domain-warped fBm dye diffusion — slow ink-in-water clouds that loop seamlessly.",
+  category: "fluid",
   fragmentShader,
   defaultParams: {
     scale: 2.2,

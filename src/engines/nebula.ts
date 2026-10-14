@@ -57,6 +57,7 @@ export const nebulaEngine: EngineDefinition = {
   name: "Nebula Drift",
   description:
     "Deep-space gas clouds with a twinkling starfield — cosmic backgrounds.",
+  category: "fluid",
   fragmentShader,
   defaultParams: {
     scale: 1.8,

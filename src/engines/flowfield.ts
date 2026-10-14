@@ -55,6 +55,7 @@ export const flowfieldEngine: EngineDefinition = {
   name: "Flow Field Lines",
   description:
     "Particles-as-streaks advected through a curling Perlin vector field.",
+  category: "lines",
   fragmentShader,
   defaultParams: {
     scale: 3.0,

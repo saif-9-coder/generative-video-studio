@@ -1,9 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play, Maximize2 } from "lucide-react";
-import { ENGINES, type StudioSettings } from "../engines/registry";
+import { Pause, Play, Maximize2, Droplets, Spline, Cpu, Sparkles, Box } from "lucide-react";
+import { CATEGORIES, enginesByCategory, getEngine, type EngineCategory, type StudioSettings } from "../engines/registry";
 import { StudioRenderer } from "./StudioRenderer";
+
+const CATEGORY_ICONS: Record<string, typeof Droplets> = {
+  Droplets,
+  Spline,
+  Cpu,
+  Sparkles,
+  Box,
+};
 
 interface PreviewProps {
   settings: StudioSettings;
@@ -18,6 +26,13 @@ export default function Preview({ settings, onSettingsChange, onRendererReady }:
   const [playing, setPlaying] = useState(true);
   const [ready, setReady] = useState(false);
   const readyRef = useRef(false);
+  const [activeCategory, setActiveCategory] = useState<EngineCategory>(() => {
+    try {
+      return getEngine(settings.engineId).category;
+    } catch {
+      return "fluid";
+    }
+  });
 
   // Create the renderer once.
   useEffect(() => {
@@ -82,12 +97,39 @@ export default function Preview({ settings, onSettingsChange, onRendererReady }:
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Engine tabs */}
+      {/* Category pills */}
       <div className="flex flex-wrap gap-2">
-        {ENGINES.map((e) => (
+        {CATEGORIES.map((c) => {
+          const Icon = CATEGORY_ICONS[c.icon] ?? Sparkles;
+          const active = activeCategory === c.id;
+          return (
+            <button
+              key={c.id}
+              onClick={() => {
+                setActiveCategory(c.id);
+                const first = enginesByCategory(c.id)[0];
+                if (first) onSettingsChange({ engineId: first.id });
+              }}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all flex items-center gap-1.5 ${
+                active
+                  ? "bg-studio-accent/25 border-studio-accent text-white shadow-[0_0_14px_rgba(124,108,240,0.35)]"
+                  : "bg-studio-panel border-studio-border text-zinc-400 hover:text-zinc-200 hover:border-zinc-600"
+              }`}
+            >
+              <Icon size={13} />
+              {c.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Engine buttons for the active category */}
+      <div className="flex flex-wrap gap-2">
+        {enginesByCategory(activeCategory).map((e) => (
           <button
             key={e.id}
             onClick={() => onSettingsChange({ engineId: e.id })}
+            title={e.description}
             className={`px-4 py-2 rounded-lg text-sm font-medium border transition-all ${
               settings.engineId === e.id
                 ? "bg-studio-accent/20 border-studio-accent text-white shadow-[0_0_16px_rgba(124,108,240,0.35)]"
@@ -98,6 +140,7 @@ export default function Preview({ settings, onSettingsChange, onRendererReady }:
           </button>
         ))}
       </div>
+      <p className="text-xs text-zinc-500 -mt-1">{getEngine(settings.engineId).description}</p>
 
       {/* Canvas */}
       <div

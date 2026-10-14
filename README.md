@@ -23,18 +23,48 @@ high-bitrate **MP4 (H.264)** or **Apple ProRes 422 (.mov)** with no audio track.
 
 ## Features
 
-- **4 generative engines** (GLSL): Liquid Clouds (domain-warped fBm), Flow Field Lines,
-  Neon Waves, Nebula Drift — each with rich parameter schemas.
+- **25 generative engines** (GLSL) across 5 categories — fluid sims, line art, cyber/tech,
+  particles/FX and raymarched 3D — each with rich parameter schemas (see Engine Catalog).
 - **Seamless loops by construction**: animation time is only ever `(cos a, sin a)` with
   `a = (i/N)·2π`, so frame N == frame 0 exactly. No crossfades, no popping.
 - **Realtime preview** (downscaled) + **offline 4K export** — frames are rendered
   deterministically one-by-one, so there are zero dropped/duplicated frames.
 - **Export queue** with progress bars, ETAs, MP4/ProRes 422 selection, one-click download,
   plus a client-side **PNG-sequence ZIP** fallback (no server encode needed).
-- **Preset manager** (6 built-in + localStorage customs), **randomizer** (unique seed,
+- **Preset manager** (11 built-in + localStorage customs), **randomizer** (unique seed,
   palette, params), **palette customizer** (6 curated gradients + custom hex stops).
 - **Headless CLI** (`scripts/render-headless.mjs`): puppeteer + SwiftShader renders true
   4K frames on a server with no GPU, then muxes with the bundled ffmpeg binary.
+
+## Engine Catalog
+
+| # | Engine | Category | Description |
+|---|--------|----------|-------------|
+| 1 | Liquid Clouds | Fluid & Smoke | Domain-warped fBm dye diffusion — slow ink-in-water clouds |
+| 2 | Nebula Drift | Fluid & Smoke | Deep-space gas clouds with twinkling starfield |
+| 3 | Ember Fire | Fluid & Smoke | Rising fBm-eroded flames, flickering embers, smoke plume |
+| 4 | Liquid Marble | Fluid & Smoke | Acrylic-pour marble with thin swirling mineral veins |
+| 5 | Thin-Film Bubbles | Fluid & Smoke | Holographic soap bubbles, rainbow interference shifting |
+| 6 | Flow Field Lines | Lines & Flow | Streaks advected through a curling Perlin vector field |
+| 7 | Topo Contours | Lines & Flow | fBm terrain isolines that wave and breathe |
+| 8 | Lissajous Ribbons | Lines & Flow | Three intertwined glowing parametric ribbons |
+| 9 | Guilloché Rosettes | Lines & Flow | Rotating spirograph rosettes, banknote-style line art |
+| 10 | Spectrum EQ | Lines & Flow | Pulsing equalizer bars + waveform from a pseudo-spectrum |
+| 11 | Neon Waves | Cyber & Tech | Layered glowing sine ribbons with neon falloff |
+| 12 | Sci-Fi HUD | Cyber & Tech | Radar sweep, rotating dials, telemetry, corner brackets |
+| 13 | Plexus Network | Cyber & Tech | Constellation nodes with auto-connecting edges |
+| 14 | Digital Rain | Cyber & Tech | Matrix-style cascading code columns with head glow |
+| 15 | Synthwave Drive | Cyber & Tech | Retro wireframe terrain scrolling to a scanline sun |
+| 16 | Circuit Traces | Cyber & Tech | Motherboard traces with traveling energy pulses |
+| 17 | Bokeh Dreams | Particles & FX | Floating out-of-focus light discs, parallax depth |
+| 18 | Accretion Vortex | Particles & FX | Black-hole disk: spiral gas streams, doppler asymmetry |
+| 19 | Kaleidoscope | Particles & FX | Mirrored fBm mandala rotating in seamless symmetry |
+| 20 | Light Leaks | Particles & FX | Anamorphic streaks sweeping over black — overlay-ready |
+| 21 | RGB Glitch | Particles & FX | Glitch bursts: RGB splits, block displacement, scanlines |
+| 22 | Fractal Tunnel | 3D Geometry | Raymarched kaleidoscopic tunnel, endless forward flight |
+| 23 | Iridescent Crystals | 3D Geometry | Raymarched floating octahedrons, fresnel iridescence |
+| 24 | Morphing Solids | 3D Geometry | Solid melting cube → sphere → torus → octahedron |
+| 25 | Liquid Metaballs | 3D Geometry | Mercury blobs merging — organic SDF liquid metal |
 
 ## Installation
 
