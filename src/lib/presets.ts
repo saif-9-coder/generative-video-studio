@@ -176,8 +176,8 @@ export const BUILTIN_PRESETS: Preset[] = [
     settings: {
       engineId: "inkwater",
       seed: 20240,
-      params: { drops: 6, spread: 0.34, turb: 1.6, rise: 0.9, soft: 0.5, glow: 0.9 },
-      palette: getPalette("pastel-smoke").stops,
+      params: { plumes: 4, spread: 0.22, turb: 1.7, fall: 0.8, soft: 0.35, shade: 0.6 },
+      palette: ["#2563eb", "#facc15", "#ef4444", "#111827", "#14b8a6"],
       durationSec: 15,
       fps: 30,
     },
